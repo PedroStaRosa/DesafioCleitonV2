@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<title>Cozinha Fuctura - Receita</title>
+</h:head>
+
+<h:body style="background-color:Black">
+	<h:form>
+		<p:panel style="height:100% ; widht:100%">
+			<h1 style="color: red; margin-top: 0; font-weight: bold">Olá
+				#{ChefBean.dadosChef.nome}.</h1>
+			<p:panel id="panelReceita"
+				style="margin-bottom:10px; width: 100%; margin-top:30px">
+				<h:outputLabel
+					value="Receita criada pelo chef: #{ChefBean.receita.profissional.nome}" />
+				<br></br><br></br>
+				<h:outputLabel value="Categoria: #{ChefBean.receita.categoria}" />
+				<h:panelGrid cellpadding="10">
+					<p:dataTable var="ingredientes"
+						value="#{ChefBean.receita.ingredientes}" id="DTingredientes">
+						<p:column
+							headerText="Ingredientes para #{ChefBean.receita.nomeReceita}"
+							style="text-align:center">
+							<h:outputText
+								value="#{ingredientes.quantidade} #{ingredientes.unidadeMedida} de #{ingredientes.descricao}" />
+						</p:column>
+					</p:dataTable>
+					<p:panel header="Modo de preparo." cellpadding="10">
+						<h:outputText value="#{ChefBean.receita.modoPreparo}" />
+					</p:panel>
+				</h:panelGrid>
+			</p:panel>
+			<h:panelGrid columns="3">
+				<p:commandButton value="Print" type="button" icon="pi pi-print"
+					style="display:block">
+					<p:printer target="panelReceita" />
+				</p:commandButton>
+				<p:commandButton value="Voltar" update="@form"
+					actionListener="#{ChefBean.abrirIndex}" immediate="true"
+					style="margin-left:20px" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

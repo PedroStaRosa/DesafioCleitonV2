@@ -1,0 +1,266 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+	<title>Cozinha Fuctura - Menu</title>
+</h:head>
+<h:body>
+	<p:panel>
+		<h:form id="idForm">
+			<p:growl id="growl" life="2000" showDetail="true" />
+			<h1 style="color: red; margin-top: 0; font-weight: bold">Olá
+				#{ChefBean.dadosChef.nome}.</h1>
+			<h:panelGrid columns="2">
+				<p:menu>
+					<p:submenu label="Receitas">
+						<p:menuitem value="Criar Receita" icon="pi pi-save"
+							onclick="PF('dlgNovaReceita').show();">
+							<f:setPropertyActionListener target="#{ChefBean.usuarioLogado}"
+								value="#{chefCozinha.cpf}" />
+						</p:menuitem>
+						<p:menuitem value=" Minhas Receitas" icon="pi pi-refresh"
+							actionListener="#{ChefBean.pesquisarMinhasReceitas}"
+							update="listaMinhasReceitas" />
+						<p:menuitem value=" Pesquisar Receitas" icon="pi pi-refresh"
+							onclick="PF('dlgSelecionarCategoria').show();" />
+						<p:menuitem value="Meus dados" icon="pi pi-save"
+							actionListener="#{ChefBean.abrirMeusDados}">
+							<f:setPropertyActionListener target="#{ChefBean.usuarioLogado}"
+								value="#{chefCozinha.cpf}" />
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu label="Navegar">
+						<p:menuitem value=" Sair (Estudar implentação)" icon="pi pi-times" />
+					</p:submenu>
+				</p:menu>
+				<p:panel header="Minhas Receitas" style="width: 100%">
+					<p:dataTable var="receita" value="#{ChefBean.listaMinhasReceitas}"
+						id="listaMinhasReceitas" scrollable="true" scrollHeight="150">
+						<p:column headerText="Categoria" style="text-align:center"
+							sortBy="#{receita.categoria}">
+							<h:outputText value="#{receita.categoria}" />
+						</p:column>
+						<p:column headerText="Receita" style="text-align:center"
+							sortBy="#{receita.nomeReceita}">
+							<h:outputText value="#{receita.nomeReceita}" />
+						</p:column>
+						<p:column headerText="N° Ingredientes" style="text-align:center"
+							sortBy="#{receita.ingredientes.size()}">
+							<h:outputText value="#{receita.ingredientes.size()}" />
+						</p:column>
+						<p:column headerText="N° Pessoas" style="text-align:center"
+							sortBy="#{receita.numeroPessoas}">
+							<h:outputText value="#{receita.numeroPessoas} pessoa(s)" />
+						</p:column>
+						<p:column headerText="Ver Receita" width="5%"
+							style="text-align:center">
+							<p:commandButton icon="pi pi-check-circle"
+								action="#{ChefBean.verReceitaSelecionada}" update="@form">
+								<f:setPropertyActionListener
+									target="#{ChefBean.idReceitaSelecionada}" value="#{receita.id}" />
+								<f:setPropertyActionListener
+									target="#{ChefBean.minhaReceitaSelecionada}" value="1" />
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="Excluir Receita" width="5%"
+							style="text-align:center">
+							<p:commandButton icon="pi pi-times"
+								action="#{ChefBean.excluirReceita}" update="@form">
+								<f:setPropertyActionListener
+									target="#{ChefBean.idReceitaSelecionada}" value="#{receita.id}" />
+								<p:confirm header="Remoção"
+									message="Tem certeza que dejesa excluir sua receita ?"></p:confirm>
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:panelGrid>
+			<div id="Div_Lista_Todas_Receitas">
+				<h4>
+					Use
+					<p:commandLink value="Pesquisar Receitas"
+						onclick="PF('dlgSelecionarCategoria').show();" />
+					para ver deliciosas receitas de outros Chefs
+				</h4>
+				<p:panel header="Todas receitas">
+					<p:commandLink value="Limpar Pesquisa"
+						action="#{ChefBean.zeraLista}" update="listaTodasReceitas" />
+					<p:dataView id="listaTodasReceitas" var="receita"
+						value="#{ChefBean.listaTodasReceitas}" gridIcon="pi pi-th-large"
+						listIcon="pi pi-bars" style="margin-top:10px">
+						<p:dataViewGridItem>
+							<p:panel header="#{receita.nomeReceita}"
+								style="text-align:center">
+								<h:panelGrid columns="2" style="width:100%">
+									<h:panelGrid columns="2" style="width:100%">
+										<h:outputLabel value="Chef: " />
+										<h:outputText value="#{receita.profissional.nome}" />
+										<h:outputLabel value="Categoria: " />
+										<h:outputText value="#{receita.categoria}" />
+										<h:outputLabel value="Numero de ingredientes: " />
+										<h:outputText value="#{receita.ingredientes.size()}" />
+									</h:panelGrid>
+									<p:commandLink action="#{ChefBean.verReceitaSelecionada}"
+										title="View Detail">
+										<h:outputText styleClass="ui-icon pi pi-search" />
+										<f:setPropertyActionListener
+											target="#{ChefBean.idReceitaSelecionada}"
+											value="#{receita.id}" />
+									</p:commandLink>
+								</h:panelGrid>
+							</p:panel>
+						</p:dataViewGridItem>
+						<p:dataViewListItem>
+							<p:panel>
+								<h:panelGrid columns="2" style="width:100%">
+									<h:panelGrid columns="2">
+										<h:outputText value="Chef:" />
+										<h:outputText value="#{receita.profissional.nome}"
+											style="font-weight: bold" />
+										<h:outputText value="Nome da Receita:" />
+										<h:outputText value="#{receita.nomeReceita}"
+											style="font-weight: bold" />
+										<h:outputText value="Categoria:" />
+										<h:outputText value="#{receita.categoria}"
+											style="font-weight: bold" />
+										<h:outputText value="Numero de ingredientes:" />
+										<h:outputText value="#{receita.ingredientes.size()}"
+											style="font-weight: bold" />
+									</h:panelGrid>
+									<p:commandLink action="#{ChefBean.verReceitaSelecionada}"
+										title="View Detail">
+										<h:outputText styleClass="ui-icon pi pi-search"
+											style="margin:0 auto;" />
+										<f:setPropertyActionListener
+											target="#{ChefBean.idReceitaSelecionada}"
+											value="#{receita.id}" />
+									</p:commandLink>
+								</h:panelGrid>
+							</p:panel>
+						</p:dataViewListItem>
+					</p:dataView>
+				</p:panel>
+			</div>
+		</h:form>
+		<h:form>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<h:panelGrid columns="2" width="100%" style="text-align:center">
+					<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+						icon="ui-icon-check" style="color:green" />
+					<p:commandButton value="Não" styleClass="ui-confirmdialog-no"
+						icon="ui-icon-close" style="color:red" />
+				</h:panelGrid>
+			</p:confirmDialog>
+
+			<!-- DIALOG PARA CRIAR UMA NOVA RECEITA ( CHAMADO NO CRIAR RECEITA ) -->
+			<p:dialog id="dialogId" header="CADASTRO DE NOVA RECEITA"
+				widgetVar="dlgNovaReceita" showEffect="explode" width="800"
+				height="900" modal="true" resizable="false" closable="false">
+				<p:panel id="panelNovaReceita">
+					<div id="NomeReceita_Ingredientes">
+
+						<h:panelGrid columns="3" style="margin-bottom:20px">
+							<h:outputLabel value="Nome da receita :" id="nomeReceitaCad" />
+							<p:inputText value="#{ChefBean.receita.nomeReceita}"
+								requiredMessage="Dê um nome a sua receita." />
+							<p:message for="nomeReceitaCad" display="icon" />
+							<p:outputLabel value="Categoria:" />
+							<p:selectOneMenu id="categoriaMenu"
+								value="#{ChefBean.receita.categoria}" dynamic="true"
+								height="100%" requiredMessage="Escolha uma categoria.">
+								<f:selectItem itemLabel="Categoria" itemValue="" />
+								<f:selectItems value="#{SelectOnCategory.categorias}" />
+							</p:selectOneMenu>
+							<p:message for="categoriaMenu" display="icon" />
+						</h:panelGrid>
+						<p:panel header="Ingredientes" style="margin-bottom:10px;">
+							<h:panelGrid columns="2" id="grid">
+								<h:outputText value="Quantidade: " id="quantidadeIngred" />
+								<p:inputNumber value="#{ChefBean.ingredientes.quantidade}"
+									decimalSeparator="," decimalPlaces="2" />
+								<p:outputLabel value="Unidade de medida:" />
+								<p:selectOneMenu id="unidadeMedidaMenu"
+									value="#{ChefBean.ingredientes.unidadeMedida}" dynamic="true"
+									height="100%">
+									<f:selectItem itemLabel="Unidade de medida" itemValue="" />
+									<f:selectItems value="#{SelectOnCategory.unidadeMedida}" />
+								</p:selectOneMenu>
+								<h:outputText id="descricaoIngred" value="Descrição: " />
+								<p:inputText value="#{ChefBean.ingredientes.descricao}" />
+								<p:commandButton value="Inserir Ingrediente"
+									update="listaIngredientes,grid"
+									actionListener="#{ChefBean.addIngrediente}" />
+							</h:panelGrid>
+							<p:dataTable id="listaIngredientes" var="ingredientes"
+								value="#{ChefBean.receita.ingredientes}">
+								<p:column headerText="Ingrediente" style="text-align:center">
+									<h:outputText
+										value="#{ingredientes.quantidade} #{ingredientes.unidadeMedida} de #{ingredientes.descricao}" />
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</div>
+					<div id="ModoDePreparo">
+						<div style="text-align: center">
+							<h:outputLabel value="Receita para " />
+							<p:inputNumber value="#{ChefBean.receita.numeroPessoas}" size="4"
+								requiredMessage="Insira para quantas pessoas." />
+							<h:outputText id="numeroPessoasCad" value=" pessoa(s)" />
+							<p:message for="numeroPessoasCad" display="icon" />
+						</div>
+						<div>
+							<h:panelGrid style="margin-bottom:20px; text-align:center"
+								width="100%">
+								<h4 style="margin-top: 0">Modo de preparo</h4>
+								<p:row>
+									<p:inputTextarea id="modoPreparoCad" rows="20"
+										counter="modoPreparoDisplay" maxlength="500"
+										counterTemplate="{0} Caracteres restantes." autoResize="false"
+										value="#{ChefBean.receita.modoPreparo}" style="width:100%"
+										requiredMessage="Descreva o modo de preparo." />
+									<p:message for="modoPreparoCad" display="icon" />
+								</p:row>
+								<h:outputText id="modoPreparoDisplay" />
+							</h:panelGrid>
+						</div>
+					</div>
+					<div id="Botao" style="text-align: center; margin-bottom: 20px">
+
+						<p:commandButton value="Inserir Receita" update="panelNovaReceita"
+							actionListener="#{ChefBean.salvarReceita}" icon="pi pi-save" />
+						<p:commandButton value="Fechar" icon="pi pi-times"
+							actionListener="#{ChefBean.clear}" update="@form" />
+						<p:messages id="msgs" />
+					</div>
+				</p:panel>
+			</p:dialog>
+
+			<!--DIALOG PARA PESQUISAR RECEITAS POR CATEGORIA DE OUTROS CHEFS  -->
+			<p:dialog id="dialogPesquisarReceita" header="PESQUISAR RECEITA"
+				widgetVar="dlgSelecionarCategoria" showEffect="explode" width="470"
+				height="120" modal="true" resizable="false">
+				<h3>Qual categoria de receita gostaria de ver?</h3>
+				<div>
+					<h:panelGrid columns="3">
+						<h:outputLabel />
+						<p:selectOneMenu id="categoriaSelecionar"
+							value="#{ChefBean.categoriaSelecionada}" dynamic="true"
+							style="text-align:center" height="100%">
+							<f:selectItem itemLabel="Todas" itemValue="" />
+							<f:selectItems value="#{SelectOnCategory.categorias}" />
+						</p:selectOneMenu>
+						<p:commandButton value="Pesquisar Receita"
+							actionListener="#{ChefBean.pesquisarTodasReceitas}"
+							update="idForm:listaTodasReceitas,@form" />
+					</h:panelGrid>
+				</div>
+			</p:dialog>
+
+		</h:form>
+	</p:panel>
+</h:body>
+</html>

@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Cozinha Fuctura</title>
+</h:head>
+<h:body>
+	<!-- FORM TELA DE LOGIN -->
+	<h:form id="formLogin">
+
+		<p:growl id="growlForm" life="2000" />
+		<p:focus context="basicPanel" />
+		<p:panel id="basicPanel" header="Login"
+			style="height:50%;text-align: center">
+			<h:panelGrid cellpadding="10" style="width:100%">
+
+				<h:panelGrid columns="2" width="100%" style="text-align:center">
+					<p:row>
+						<h:graphicImage value="/imgs/desenhoReceita.png" height="200"
+							width="200" />
+					</p:row>
+					<p:row>
+						<h:panelGrid columns="3" cellpadding="10">
+							<h:outputLabel value="CPF :" />
+							<p:inputMask mask="99999999999" id="usuario"
+								value="#{LoginBean.usuarioInput}" required="true"
+								requiredMessage="Insira um CPF para login." />
+							<p:message for="usuario" display="icon" />
+							<h:outputLabel value="Senha :" />
+							<p:password value="#{LoginBean.senhaInput}" id="senha"
+								required="true" requiredMessage="Insira um senha para login" />
+							<p:message for="senha" display="icon" />
+						</h:panelGrid>
+					</p:row>
+				</h:panelGrid>
+
+				<h:panelGrid width="100%" style="text-align:center">
+					<p:commandButton value="Entrar"
+						actionListener="#{LoginBean.entrar}" update="@form" />
+					<h4 style="color: blue">Novo por aqui? Se cadastre para ver
+						receitas ou para compartilhar suas receitas.</h4>
+					<p:commandLink value="Cadastrar Chef" type="button"
+						onclick="PF('dlgNovoChef').show();" />
+				</h:panelGrid>
+			</h:panelGrid>
+		</p:panel>
+		<h:graphicImage value="/imgs/culinarioaPHS.png" height="70%"
+			width="100%" />
+
+	</h:form>
+
+	<!-- FORM CONTENDO DIALOG DE CADASTRO DE UM NOVO CHEF -->
+	<h:form id="formCadastro">
+
+		<p:growl id="growlDlg" life="2000" />
+		<!-- CADASTRO DE UM NOVO CHEF -->
+		<p:dialog id="dlgIDDD" header="CADASTRO DE NOVO CHEF"
+			widgetVar="dlgNovoChef" showEffect="explode" height="350"
+			modal="true" resizable="false">
+			<!-- AQUI IRA OS DADOS DE UM NOVO CHEF -->
+			<!--  MESMO DADOS DO USUARIO, SENDO ACRESCENTADO O TITULO DE "CHEF" AO BANCO -->
+			<p:panel id="panelDados">
+				<h:panelGrid columns="3" id="PGCadastro">
+					<h:outputLabel value="CPF :" />
+					<p:inputMask mask="99999999999" id="cpfNovoChef"
+						value="#{LoginBean.novoChef.cpf}" required="true"
+						requiredMessage="Insira um CPF.">
+						<f:validator validatorId="cpfValidator" />
+					</p:inputMask>
+					<p:message for="cpfNovoChef" display="icon" />
+					<h:outputLabel value="Usuario :" />
+					<p:inputText id="usuarioNovoChef"
+						value="#{LoginBean.novoChef.usuario}" required="true"
+						requiredMessage="Insira um Usuário." />
+					<p:message for="usuarioNovoChef" display="icon" />
+					<h:outputLabel value="Senha: *" />
+					<p:password id="pwd1" value="#{LoginBean.novoChef.senha}"
+						match="pwd2" label="Password 1" redisplay="true"
+						validatorMessage="* Senhas não coincidem." required="true"
+						requiredMessage="insira uma senha.">
+						<p:clientValidator event="keyup" />
+					</p:password>
+					<p:message for="pwd1" display="icon" />
+					<h:outputLabel value="Confirme senha: *" />
+					<p:password id="pwd2" value="#{LoginBean.novoChef.senha}"
+						label="Password 2" redisplay="true" />
+					<p:message for="pwd1" display="icon" />
+					<h:outputLabel value="Nome :" />
+					<p:inputText id="nomeNovoChef" value="#{LoginBean.novoChef.nome}"
+						required="true" requiredMessage="Insira um nome." />
+					<p:message for="nomeNovoChef" display="icon" />
+					<h:outputLabel value="Idade :" />
+					<p:inputText id="idadeNovoChef" value="#{LoginBean.novoChef.idade}"
+						required="true" requiredMessage="Insira sua idade." />
+					<p:message for="idadeNovoChef" display="icon" />
+					<p:commandButton value="Cadastrar"
+						actionListener="#{LoginBean.ValidarChefExiste}"
+						update="formLogin:growlForm,panelDados,growlDlg" />
+				</h:panelGrid>
+				<p:messages id="msgs" />
+			</p:panel>
+		</p:dialog>
+		<!-- CADASTRO DE UM NOVO USUARIO (FUTURA IMPLEMNTAÇÃO) -->
+		<p:dialog header="CADASTRO DE NOVO USUÁRIO" widgetVar="dlg1"
+			showEffect="explode" height="300">
+			<h:panelGrid columns="2">
+				<!-- AQUI IRA OS DADOS DE UM NOVO USUARIO -->
+				<h:outputLabel value="CPF :" />
+				<p:inputText id="cpfNovoUsuario"
+					value="#{LoginBean.novoUsuario.cpf}" />
+				<h:outputLabel value="Usuario :" />
+				<p:inputText id="usuarioNovoUsuario"
+					value="#{LoginBean.novoUsuario.usuario}" />
+				<h:outputLabel value="Senha :" />
+				<p:inputText id="senhaNovoUsuario"
+					value="#{LoginBean.novoUsuario.senha}" />
+				<h:outputLabel value="Nome :" />
+				<p:inputText id="nomeNovoUsuario"
+					value="#{LoginBean.novoUsuario.nome}" />
+				<h:outputLabel value="Idade :" />
+				<p:inputText id="idadeNovoUsuario"
+					value="#{LoginBean.novoUsuario.idade}" />
+				<p:commandButton value="Cadastrar"
+					actionListener="#{LoginBean.salvarUsuario}" update="@form" />
+			</h:panelGrid>
+		</p:dialog>
+
+	</h:form>
+</h:body>
+</html>

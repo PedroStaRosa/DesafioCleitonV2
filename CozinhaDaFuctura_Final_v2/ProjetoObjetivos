@@ -1,0 +1,54 @@
+Fuctura Exercício Sefaz
+
+	* Objetivo desse exercício é testar a capacidade dos alunos em criar 
+um projeto java com algumas funcionalidades específicas, detalhadas abaixo.
+
+	* Nome Sistema: Cozinha da Fuctura
+
+	* Esse sistema se baseia na ideia de uma cozinha, onde teremos PROFISSIONAIS e RECEITAS.
+
+	* Funcionalidades: Uma tela de entrada no sistema(LOGIN), como também uma 
+lugar onde, posso pesquisar as receitas de diversas formas, como também, 
+posso criar receitas novas no momento que eu quiser.
+
+	* OBS: Pensem e utilize da criatividade para criar objetos, atributos, 
+relacionamento e tudo o que for necessário, para o mesmo funcionar de forma limpa. 
+O céu é o limite, mas lembrem, tudo vai ter que ser explicado.
+
+	* OBS2: Vcs tem até a terça-feira (21/04/2020 23:59), 
+para liberarem no git o projeto para avaliação.
+
+	* OBS3: Na quarta feira, após as entregas, serão sorteados 3 alunos 
+para realizamos a entrevista de simulação.
+
+Boa sorte a todos.
+
+
+
+======================== A FAZER ===================
+
+* IMPLEMENTAR LOGIN POR PERFIL.
+* CORRIGIR LISTA "MINHA RECEITAS" PARA REFRESH AO VERIFICAR A RECEITA.
+* IMPLEMNETAR FUNÇÃO LOGOUT.
+* VALIDAÇÕES.
+* DEIXAR UM COMENTARIO NA RECEITA DE OUTRO CHEF.
+
+* MENSAGEM DE LISTA MINHAS RECEITAS VAZIA.
+
+
+* VALIDAR INSERÇÃO DA RECEITA... CAMPOS COM REQUIRED = "TRUE" NAO DEIXA ADICIONAR INGREDIENTES ATE
+	QUE TODOS ESTEJAM PREENCHIDOS, PESQUISAR SOBRE O PORQUE OU CONTORNAR ABRINDO OUTRO 
+	DIALOG SO PARA ALIMENTAR A LISTA
+	
+* TRABALHAR XHTML COM <div></div> MELHOR ORGANIZAÇÃO !!!! EX: DIALOG_CADASTRO_NOVA_RECEITA	
+
+* IDENTAR CODIGOS E COMENTAR O CODIGO NOS PONTOS CRITICOS.
+
+
+=============== OK =====================================
+*cadattro de senha com ****** 
+*imprimir receita 
+*confirmar senha cadastro
+* PESQUISAR POR CATEGORIA DA RECEITA ( TODAS RECEITAS ).
+* ALTERAR UMA RECEITA.
+* INFORMAR NUMEROS DE INGREDIENTES DA RECEITA EM COLUNA.
